@@ -9,21 +9,60 @@
 </head>
 <body>
 
+    <div class="top-bar-container">
+        <button class="settings-trigger-btn" id="open-settings-btn">⚙️ Settings</button>
+        <button id="theme-toggle-btn">
+            <span id="theme-icon">🌙</span> <span id="theme-text">Dark Mode</span>
+        </button>
+    </div>
+
     <div class="todo-container">
         <h2>My To Do List</h2>
         
         <div class="todo-input-area">
-            <input type="text" id="todo-input" placeholder="Add a new task...">
-            <button id="add-btn">Add</button>
+            <div class="input-row">
+                <input type="text" id="todo-input" placeholder="Add a new task...">
+            </div>
+            <div class="controls-row">
+                <div class="priority-selector">
+                    <span class="priority-option active" data-priority="low">Low</span>
+                    <span class="priority-option" data-priority="medium">Med</span>
+                    <span class="priority-option" data-priority="high">High</span>
+                </div>
+                <button id="add-btn">Add</button>
+            </div>
         </div>
 
         <ul id="todo-list"></ul>
 
         <button id="delete-all-btn">Delete All</button>
+
+        <!-- Settings Panel Overlay -->
+        <div class="settings-panel" id="settings-card">
+            <div class="settings-header">
+                <h3>Preferences</h3>
+                <button class="close-settings-btn" id="close-settings-btn">&times;</button>
+            </div>
+            
+            <div class="settings-row">
+                <span class="settings-label">Sort Engine Layout</span>
+                <select class="settings-select" id="settings-sort">
+                    <option value="none">Default Order</option>
+                    <option value="priority-high">Priority: High to Low</option>
+                    <option value="priority-low">Priority: Low to High</option>
+                </select>
+            </div>
+
+            <div class="danger-zone">
+                <button class="wipe-data-btn" id="wipe-storage-btn">Reset App & Clear Memory</button>
+            </div>
+        </div>
     </div>
 
-    <div class="todo-stats">
-        Total Tasks: <span id="task-count">0</span>
+    <!-- Redesigned premium counter card overlay component matrix -->
+    <div class="todo-stats-card">
+        <span class="stats-label">Remaining Duties</span>
+        <div id="task-count">0</div>
     </div>
 
 </body>
