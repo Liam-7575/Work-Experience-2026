@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To Do App</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
 
@@ -16,11 +17,14 @@
             <button id="add-btn">Add</button>
         </div>
 
-        <ul id="todo-list">
-            
+        <ul id="todo-list"></ul>
+
+        <button id="delete-all-btn">Delete All</button>
     </div>
 
-    <script src="script.js"></script>
+    <div class="todo-stats">
+        Total Tasks: <span id="task-count">0</span>
+    </div>
+
 </body>
 </html>
-

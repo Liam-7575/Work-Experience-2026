@@ -1,109 +1,82 @@
-const todoInput = document.getElementById('todo-input');
-const addBtn = document.getElementById('add-btn');
-const todoList = document.getElementById('todo-list');
+document.addEventListener('DOMContentLoaded', () => {
+    const todoInput = document.getElementById('todo-input');
+    const addBtn = document.getElementById('add-btn');
+    const todoList = document.getElementById('todo-list');
+    const deleteAllBtn = document.getElementById('delete-all-btn');
+    const taskCount = document.getElementById('task-count');
 
-
-document.addEventListener('DOMContentLoaded', loadTasks);
-
-function addTask() {
-    const taskText = todoInput.value.trim();
-
-    if (taskText === "") {
-        alert("Please enter a task!");
-        return;
+    function updateCounter() {
+        const totalItems = todoList.children.filter ? 
+            Array.from(todoList.children).filter(item => !item.classList.contains('slide-out')).length : 
+            todoList.children.length;
+            
+        taskCount.textContent = totalItems;
+        taskCount.classList.add('pulse');
+        setTimeout(() => {
+            taskCount.classList.remove('pulse');
+        }, 150);
     }
 
-    createTaskElement(taskText, false);
+    function addTask() {
+        const taskText = todoInput.value.trim();
+        if (taskText === '') return;
 
-    saveTaskToStorage(taskText, false);
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <div class="task-content">
+                <span class="checkbox-tick">&#10003;</span>
+                <span class="task-text">${taskText}</span>
+            </div>
+            <button class="delete-btn">&times;</button>
+        `;
 
-    todoInput.value = "";
-}
-
-function createTaskElement(text, isCompleted) {
-    const li = document.createElement('li');
-    li.textContent = text;
-
-    if (isCompleted) {
-        li.classList.add('completed');
-    }
-
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = 'X';
-    deleteBtn.className = 'delete-btn';
-    li.appendChild(deleteBtn);
-    todoList.appendChild(li);
-
-    li.addEventListener('click', function(e) {
-        if (e.target !== deleteBtn) {
-            li.classList.toggle('completed');
-            updateStorage(); 
-        }
-    });
-
-    deleteBtn.addEventListener('click', function() {
-        li.remove();
-        updateStorage(); 
-    });
-}
-
-function saveTaskToStorage(text, isCompleted) {
-    let tasks = getTasksFromStorage();
-    tasks.push({ text: text, completed: isCompleted });
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-}
-
-function getTasksFromStorage() {
-    let tasks;
-    if (localStorage.getItem('tasks') === null) {
-        tasks = [];
-    } else {
-        tasks = JSON.parse(localStorage.getItem('tasks'));
-    }
-    return tasks;
-}
-
-function loadTasks() {
-    let tasks = getTasksFromStorage();
-    tasks.forEach(function(task) {
-        createTaskElement(task.text, task.completed);
-    });
-}
-
-function updateStorage() {
-    let tasks = [];
-    const listItems = todoList.querySelectorAll('li');
-    
-    listItems.forEach(function(li) {
-        tasks.push({
-            text: li.firstChild.textContent, 
-            completed: li.classList.contains('completed')
+        li.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'BUTTON') {
+                li.classList.toggle('completed');
+            }
         });
+
+        li.querySelector('.delete-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            li.classList.add('slide-out');
+            setTimeout(() => {
+                li.remove();
+                updateCounter();
+            }, 300);
+        });
+
+        todoList.appendChild(li);
+        todoInput.value = '';
+        updateCounter();
+        todoList.scrollTop = todoList.scrollHeight;
+    }
+
+    addBtn.addEventListener('click', addTask);
+    todoInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') addTask();
     });
-    
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-}
 
-addBtn.addEventListener('click', addTask);
-todoInput.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        addTask();
-    }
+    deleteAllBtn.addEventListener('click', () => {
+        const items = todoList.querySelectorAll('li');
+        let currentCount = items.length;
+        if (currentCount === 0) return;
+        
+        items.forEach((item, index) => {
+            setTimeout(() => {
+                item.classList.add('slide-out');
+                
+                currentCount--;
+                taskCount.textContent = currentCount;
+                taskCount.classList.add('pulse');
+                setTimeout(() => {
+                    taskCount.classList.remove('pulse');
+                }, 100);
+                
+            }, index * 80);
+        });
+
+        setTimeout(() => {
+            todoList.innerHTML = '';
+        }, (items.length * 80) + 300);
+    });
 });
-
-const deleteAllBtn = document.createElement('button');
-deleteAllBtn.textContent = 'Delete All Tasks';
-deleteAllBtn.id = 'delete-all-btn';
-todoList.parentNode.insertBefore(deleteAllBtn, todoList.nextSibling);
-
-deleteAllBtn.addEventListener('click', function() {
-    if (confirm("Are you sure you want to delete all tasks?")) {
-        todoList.innerHTML = ''; 
-        localStorage.removeItem('tasks'); 
-    }
-});
-
-
-
-
-
