@@ -41,11 +41,18 @@ function displayTasks() {
         <p id="todo-${index}" class="${
       item.disabled ? "disabled" : ""
     }" onclick="editTask(${index})">${item.text}</p>
+        <button class="delete-item-btn" data-index="${index}">X</button>
       </div>
     `;
+    
     p.querySelector(".todo-checkbox").addEventListener("change", () =>
       toggleTask(index)
     );
+
+    p.querySelector(".delete-item-btn").addEventListener("click", () =>
+      deleteTask(index)
+    );
+
     todoList.appendChild(p);
   });
   todoCount.textContent = todo.length;
@@ -84,4 +91,11 @@ function deleteAllTasks() {
 
 function saveToLocalStorage() {
   localStorage.setItem("todo", JSON.stringify(todo));
+}
+
+function deleteTask(index) {
+  // Removes 1 item at the specified index position
+  todo.splice(index, 1); 
+  saveToLocalStorage();
+  displayTasks();
 }
