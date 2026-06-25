@@ -29,7 +29,7 @@ function createTaskElement(text, isCompleted) {
     }
 
     const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = 'Delete';
+    deleteBtn.textContent = 'X';
     deleteBtn.className = 'delete-btn';
     li.appendChild(deleteBtn);
     todoList.appendChild(li);
@@ -90,3 +90,20 @@ todoInput.addEventListener('keypress', function(e) {
         addTask();
     }
 });
+
+const deleteAllBtn = document.createElement('button');
+deleteAllBtn.textContent = 'Delete All Tasks';
+deleteAllBtn.id = 'delete-all-btn';
+todoList.parentNode.insertBefore(deleteAllBtn, todoList.nextSibling);
+
+deleteAllBtn.addEventListener('click', function() {
+    if (confirm("Are you sure you want to delete all tasks?")) {
+        todoList.innerHTML = ''; 
+        localStorage.removeItem('tasks'); 
+    }
+});
+
+
+
+
+

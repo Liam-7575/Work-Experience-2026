@@ -6,7 +6,7 @@
 }
 
 body {
-    background: linear-gradient(135deg, #74ebd5, #9face6);
+    background: linear-gradient(135deg, #08355a, #05441a);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -14,7 +14,7 @@ body {
 }
 
 .todo-container {
-    background: #ffffff;
+    background: #000000;
     width: 100%;
     max-width: 400px;
     padding: 30px;
@@ -23,7 +23,7 @@ body {
 }
 
 h2 {
-    color: #333;
+    color: #fffdfd;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -45,7 +45,7 @@ h2 {
 }
 
 #todo-input:focus {
-    border-color: #74ebd5;
+    border-color: #19ff04;
 }
 
 #add-btn {
@@ -60,7 +60,7 @@ h2 {
 }
 
 #add-btn:hover {
-    background-color: #66d4c0;
+    background-color: #15da2f;
 }
 
 ul {
@@ -75,7 +75,7 @@ li {
     padding: 12px;
     border-radius: 8px;
     margin-bottom: 10px;
-    border-left: 4px solid #9face6;
+    border-left: 4px solid #1eff00;
     cursor: pointer;
     user-select: none;
     transition: all 0.2s;
@@ -90,7 +90,7 @@ li.completed {
 .delete-btn {
     background: none;
     border: none;
-    color: #ff5e5e;
+    color: #ff0303;
     font-size: 16px;
     cursor: pointer;
     font-weight: bold;
@@ -100,3 +100,29 @@ li.completed {
 .delete-btn:hover {
     transform: scale(1.2);
 }
+
+#delete-all-btn {
+    background-color: #2ecc71; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 100%; 
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2);
+}
+
+#delete-all-btn:hover {
+    background-color: #27ae60;
+    box-shadow: 0 6px 8px rgba(39, 174, 96, 0.3);
+}
+
+#delete-all-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(39, 174, 96, 0.2);
+}
+
